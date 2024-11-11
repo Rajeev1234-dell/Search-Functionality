@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const users = [
   { firstName: "John", id: 1 },
@@ -16,6 +16,7 @@ const users = [
 function App() {
   const [searchInput, setSearchInput] = useState("");
   const [filteredItem, setFilteredItem] = useState(users);
+  const [apiUser, setApiUser] = useState([]);
 
   const handleSearchChange = (event) => {
     const input = event.target.value.toLowerCase();
@@ -26,6 +27,14 @@ function App() {
     );
     setFilteredItem(filteredNames);
   };
+
+  useEffect(() => {
+    fetch("https://dummyjson.com/users")
+      .then((response) => response.json())
+      .then((data) => setApiUser(data.users));
+  }, []);
+
+  console.log(apiUser);
 
   return (
     <div>
